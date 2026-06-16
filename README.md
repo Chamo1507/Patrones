@@ -1,5 +1,3 @@
-Aquí tienes el README.md adaptado por completo a la nueva estructura fuertemente tipada y semántica de tu código.
-
 Patrón Builder - Query builder
 Problema a resolver
 El problema es la necesidad de construir consultas SQL de inserción de forma dinámica, segura y legible, evitando errores de sintaxis al mapear manualmente columnas y valores de forma desordenada en un string. Al escribir queries directamente, es fácil equivocarse en el orden de los datos o en el formateo de los tipos (como olvidar poner comillas simples a las cadenas de texto).
