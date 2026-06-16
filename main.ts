@@ -8,7 +8,6 @@ namespace sqlbuilder {
       this.table = table;
     }
 
-    // Agrega el campo y su valor (le pone comillas si es texto)
     private add(column: string, value: string | number): querybuilder {
       this.columns.push(column);
       this.values.push(typeof value === "string" ? `'${value}'` : `${value}`);
