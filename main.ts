@@ -1,49 +1,86 @@
 namespace sqlbuilder {
   class querybuilder {
     private table: string;
-    private fields: string[] = [];
-    private conditions: string[] = [];
-    private orderField: string[] = [];
-
-    private insertValues: string = "";
+    private columns: string[] = [];
+    private values: string[] = [];
 
     constructor(table: string) {
       this.table = table;
     }
 
-    insert(values: string): querybuilder {
-      this.insertValues = values;
+    // Agrega el campo y su valor (le pone comillas si es texto)
+    private add(column: string, value: string | number): querybuilder {
+      this.columns.push(column);
+      this.values.push(typeof value === "string" ? `'${value}'` : `${value}`);
       return this;
     }
 
-    select(...fields: string[]): querybuilder {
-      this.fields = fields;
-      return this;
+    // set para la tabla Roles
+    setNombreRol(val: string) {
+      return this.add("nombre_rol", val);
+    }
+    setDescripcion(val: string) {
+      return this.add("descripcion", val);
+    }
+    setEstatusRol(val: number) {
+      return this.add("estatus", val);
     }
 
-    where(condition: string): querybuilder {
-      this.conditions.push(condition);
-      return this;
+    // set para la tabla Usuarios
+    setNombre(val: string) {
+      return this.add("nombre", val);
+    }
+    setApellidoPaterno(val: string) {
+      return this.add("apellido_paterno", val);
+    }
+    setApellidoMaterno(val: string) {
+      return this.add("apellido_materno", val);
+    }
+    setCorreo(val: string) {
+      return this.add("correo", val);
+    }
+    setContrasena(val: string) {
+      return this.add("contraseña", val);
+    }
+    setTelefono(val: string) {
+      return this.add("telefono", val);
+    }
+    setFechaRegistro(val: string) {
+      return this.add("fecha_registro", val);
+    }
+    setEstatusUsuario(val: number) {
+      return this.add("estatus", val);
+    }
+    setIdRol(val: number) {
+      return this.add("id_rol", val);
     }
 
     execute(): string {
-      return `INSERT INTO "${this.table}" VALUES (${this.insertValues});`;
+      return `INSERT INTO "${this.table}" (${this.columns.join(", ")}) VALUES (${this.values.join(", ")});`;
     }
   }
 
   function main() {
-    //rol del administrador
+    // crea el rol administrador
     const queryRol = new querybuilder("Roles")
-      .insert("'Administrador', 'Acceso total', 1")
+      .setNombreRol("Administrador")
+      .setDescripcion("Acceso total")
+      .setEstatusRol(1)
       .execute();
 
     console.log(queryRol);
 
-    //usuario al cual se le asignará el rol de administrador
+    // inserta el usuario Juan Pérez Gómez con el rol de administrador
     const queryUsuario = new querybuilder("Usuarios")
-      .insert(
-        "'Juan', 'Pérez', 'Gómez', 'juan@email.com', 'pass123', '5551234', '2026-06-16', 1, 1",
-      )
+      .setNombre("Juan")
+      .setApellidoPaterno("Pérez")
+      .setApellidoMaterno("Gómez")
+      .setCorreo("juan@email.com")
+      .setContrasena("pass123")
+      .setTelefono("5551234")
+      .setFechaRegistro("2026-06-16")
+      .setEstatusUsuario(1)
+      .setIdRol(1)
       .execute();
 
     console.log(queryUsuario);
