@@ -5,14 +5,12 @@ namespace sqlbuilder {
     private conditions: string[] = [];
     private orderField: string[] = [];
 
-    // 1. Agregamos una variable simple para guardar el texto del INSERT
     private insertValues: string = "";
 
     constructor(table: string) {
       this.table = table;
     }
 
-    // 2. El nuevo método recibe el texto directo de los valores
     insert(values: string): querybuilder {
       this.insertValues = values;
       return this;
@@ -29,8 +27,6 @@ namespace sqlbuilder {
     }
 
     execute(): string {
-      // 3. Si se usó .insert(), armamos la estructura básica de PostgreSQL
-
       return `INSERT INTO "${this.table}" VALUES (${this.insertValues});`;
     }
   }
